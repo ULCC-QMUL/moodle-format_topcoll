@@ -828,8 +828,11 @@ class format_topcoll extends format_base {
         if (!$forsection) {
             $maxsections = get_config('moodlecourse', 'maxsections');
             $numsections = $mform->getElementValue('numsections');
-            $numsections = $numsections[0];
-            if ($numsections > $maxsections) {
+            if(is_array($numsections)) {
+                $numsections = $numsections[0];
+            } else {
+                $numsections = $maxsections;
+            }            if ($numsections > $maxsections) {
                 $element = $mform->getElement('numsections');
                 for ($i = $maxsections + 1; $i <= $numsections; $i++) {
                     $element->addOption("$i", $i);
