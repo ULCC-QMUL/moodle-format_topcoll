@@ -814,7 +814,7 @@ class format_topcoll extends format_base {
      * @return array array of references to the added form elements
      */
     public function create_edit_form_elements(&$mform, $forsection = false) {
-        global $CFG, $OUTPUT, $PAGE, $USER;
+        global $CFG, $COURSE, $OUTPUT, $PAGE, $USER;
         MoodleQuickForm::registerElementType('tccolourpopup', "$CFG->dirroot/course/format/topcoll/js/tc_colourpopup.php",
                                              'MoodleQuickForm_tccolourpopup');
 
@@ -827,12 +827,13 @@ class format_topcoll extends format_base {
         // activities / resources.
         if (!$forsection) {
             $maxsections = get_config('moodlecourse', 'maxsections');
-            $numsections = $mform->getElementValue('numsections');
-            if(is_array($numsections)) {
+            if(isset($this->settings['numsections'])) {
+                $numsections = $mform->getElementValue('numsections');
                 $numsections = $numsections[0];
             } else {
                 $numsections = $maxsections;
-            }            if ($numsections > $maxsections) {
+            }
+            if ($numsections > $maxsections) {
                 $element = $mform->getElement('numsections');
                 for ($i = $maxsections + 1; $i <= $numsections; $i++) {
                     $element->addOption("$i", $i);
